@@ -52,7 +52,29 @@ MaxSumBoundary:
 #	$a2 contains e
 #	$a3 is the direction (either 0 or 1)
 #	$v0 returns the maximum subarray
-#   Write your code here
+addi $t0, $0, $a2 #set i=e
+addi $v0, $0, $0  #initialize v0 to zero
+lw $a2, 0($a0) #load a2 into the array
+beq $a3, $0, L #if the direction is 0, go to Loop
+C:
+add $v0, $v0, $a2  #update the current v0
+L:
+addi $t0, $t0, -1
+addi $a0, $a0, -4
+sw $a0, 0($a2)
+
+P:
+slt $t1, $t0, $a2  #if i is smaller than a2, go to loop
+beq $t1, $0, exit 
+slt $t2, $a2, $0 #if a2<0 t2 is 1; a2>0, t2 is 0
+bne $t2, $0, C   #if a2 is greater than 0, go to C
+beq $t2, $0, L   #if a2 is smaller than 0, go to L
+jr $ra
+
+
+bne $a3, $0, Q
+
+beq $a1, $a2, $a1
 jr   $ra
 
 ##########################################################
@@ -65,12 +87,12 @@ MaximumCrossingSum:
 
  
 addi $a3, $0, $0
-Jal MaxSubArray(     #search left
+Jal MaxSumBoundary(     #search left
 addi $v1, $0, $v0
 addi $a1, $0, $a2
 addi $a2, $0, $a3
 addi $a3, $0, $1
-Jal MaxSubArray(     #search right
+Jal MaxSumBoundary(     #search right
 addi $v2, $0, $v0
 addi $v0, $v1, $v2
 
