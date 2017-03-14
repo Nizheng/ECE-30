@@ -103,6 +103,18 @@ MaximumCrossingSum:
 #	$a3 contains e
 #	$v0 returns the maximum sum of arrays that cross the midpoint
 #   Write your code here
+addi $a3, $0, $0
+Jal MaxSumBoundary(     #search left
+addi $v1, $0, $v0
+addi $a1, $0, $a2
+addi $a2, $0, $a3
+addi $a3, $0, $1
+Jal MaxSumBoundary(     #search right
+addi $v2, $0, $v0
+addi $v0, $v1, $v2
+
+
+
 jr $ra
 
 
